@@ -4,35 +4,44 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-//import com.ionutdejeu.businesslayer.FeatureModule;
-//import com.ionutdejeu.components.AppComponent;
-//import com.ionutdejeu.components.DaggerAppComponent;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import com.ionutdejeu.utils.*;
-
+import com.ionutdejeu.businesslayer.FeatureModule;
+import com.ionutdejeu.components.AppComponent;
+import com.ionutdejeu.components.DaggerAppComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import com.ionutdejeu.utils.*;
+import static com.ionutdejeu.lambdalayer.Utilities.logMessage;
 /**
  * Handler for requests to Lambda function.
  */
 public class App implements RequestHandler<Object, Object> {
-    //private final AppComponent component;
-    //private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
+    private final AppComponent component;
+    private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
     public App(){
 
-            //component = DaggerAppComponent.builder().build();
-            //LOGGER.debug("App::Constructor Called");
+            component = DaggerAppComponent.builder().build();
+            LOGGER.debug("App::Constructor Called");
     }
     public Object handleRequest(final Object input, final Context context) {
-        //LOGGER.debug("Lambda Handler called");
-        //component.getAdapter().getAdapterMethodA();
-        //component.getFeature().executeFeatureAMethodB();
+        LOGGER.debug("Lambda Handler called");
+        component.getAdapter().getAdapterMethodA();
+        component.getFeature().executeFeatureAMethodB();
 
+        ClassLoader cl = ClassLoader.getSystemClassLoader();
+
+        URL[] urls = ((URLClassLoader)cl).getURLs();
+
+        for(URL url: urls){
+            LOGGER.debug((url.getFile()));
+        }
+        logMessage(context.getLogger(), " LAMBDA LAYER, STARTING FUNCTION");
         context.getLogger().log("This is a test log");
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");

@@ -11,9 +11,11 @@ public class FeatureAImpl implements FeatureA {
     @Inject
     public FeatureAImpl(){
         LOGGER.debug("FeatureAImpl::Constructor");
+        LOGGER.debug("Lambda Layer updated");
     }
     public boolean executeFeatureAMethodB() {
         LOGGER.debug("FeatureAImpl::executeFeatureAMethodB return");
+
         return false;
     }
 }
